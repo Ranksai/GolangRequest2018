@@ -8,5 +8,11 @@ func main() {
 	for _, v := range ns {
 		sum += v
 	}
+	// commonly used
+	/*
+		for i := range ns {
+			sum += ns[i]
+		}
+	*/
 	fmt.Println(sum)
 }
