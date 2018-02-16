@@ -2,17 +2,12 @@ package main
 
 import (
 	"bufio"
-	"flag"
 	"fmt"
 	"os"
 )
 
 var lineNumber = 1
 var isLineNumber bool
-
-func init() {
-	flag.BoolVar(&isLineNumber, "n", false, "usage: -n")
-}
 
 func openFile(filename string) (*os.File, error) {
 	sf, err := os.Open(filename)
@@ -35,11 +30,17 @@ func printFile(scanFiles []*os.File, isLineNumber bool) {
 	}
 }
 
+func showHelp() {
+	fmt.Println("mycat is file showing command")
+}
 func myCat(args []string, isLineNumber bool) {
 	var filePaths []string
 	var sfs []*os.File
 
 	// check args
+	if len(args) == 1 {
+
+	}
 	for i := 1; i < len(args); i++ {
 		if flag := string([]rune(args[i])[:1]); flag != "-" {
 			filePaths = append(filePaths, args[i])
@@ -47,6 +48,9 @@ func myCat(args []string, isLineNumber bool) {
 			switch args[i] {
 			case "-n":
 				isLineNumber = true
+			case "-h":
+				showHelp()
+				return
 			default:
 				fmt.Fprintf(os.Stderr, "%s is unknown flag\n", args[i])
 			}
@@ -67,7 +71,5 @@ func myCat(args []string, isLineNumber bool) {
 }
 
 func main() {
-	// flag
-	flag.Parse()
 	myCat(os.Args, isLineNumber)
 }
