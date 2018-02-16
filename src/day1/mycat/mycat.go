@@ -47,6 +47,8 @@ func myCat(args []string, isLineNumber bool) {
 			switch args[i] {
 			case "-n":
 				isLineNumber = true
+			default:
+				fmt.Fprintf(os.Stderr, "%s is unknown flag\n", args[i])
 			}
 		}
 	}
