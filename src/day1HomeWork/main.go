@@ -1,0 +1,11 @@
+package main
+
+import (
+	"os"
+
+	"github.com/GolangRequest2018/src/day1HomeWork/mycat"
+)
+
+func main() {
+	mycat.MyCat(os.Args)
+}

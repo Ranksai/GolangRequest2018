@@ -1,4 +1,4 @@
-package main
+package mycat
 
 import (
 	"bufio"
@@ -8,6 +8,7 @@ import (
 
 var lineNumber = 1
 var isLineNumber bool
+var isPrintFileName bool
 
 func openFile(filename string) (*os.File, error) {
 	sf, err := os.Open(filename)
@@ -17,8 +18,13 @@ func openFile(filename string) (*os.File, error) {
 	return sf, nil
 }
 
-func printFile(scanFiles []*os.File, isLineNumber bool) {
+func printFile(scanFiles []*os.File, filePaths []string) {
+	filePathsNum := 0
 	for i := range scanFiles {
+		if isPrintFileName {
+			fmt.Printf("fileName: %s\n", filePaths[filePathsNum])
+			filePathsNum++
+		}
 		scanner := bufio.NewScanner(scanFiles[i])
 		for scanner.Scan() {
 			if isLineNumber {
@@ -33,7 +39,7 @@ func printFile(scanFiles []*os.File, isLineNumber bool) {
 func showHelp() {
 	fmt.Println("mycat is file showing command")
 }
-func myCat(args []string, isLineNumber bool) {
+func MyCat(args []string) {
 	var filePaths []string
 	var sfs []*os.File
 
@@ -46,6 +52,8 @@ func myCat(args []string, isLineNumber bool) {
 			filePaths = append(filePaths, args[i])
 		} else {
 			switch args[i] {
+			case "-p":
+				isPrintFileName = true
 			case "-n":
 				isLineNumber = true
 			case "-h":
@@ -67,9 +75,5 @@ func myCat(args []string, isLineNumber bool) {
 		defer sf.Close()
 	}
 
-	printFile(sfs, isLineNumber)
-}
-
-func main() {
-	myCat(os.Args, isLineNumber)
+	printFile(sfs, filePaths)
 }
